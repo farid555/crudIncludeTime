@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@200&family=Barlow:ital@0;1&family=Khand:wght@300&family=M+PLUS+1+Code:wght@300&family=Noto+Serif+Display:wght@100&family=Source+Code+Pro:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@200&family=Barlow:ital@0;1&family=M+PLUS+1+Code:wght@300&family=Noto+Serif+Display:wght@100&family=Source+Code+Pro:wght@300&display=swap');
+
+
+*{
+    margin:0;
+    box-sizing: border-box;
+    
+}
+
+
+
+
+
+.mainCard {
+    min-width: 80vh ;
+    min-height: 80vh ;
+    background-color: gray;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    
+}
+
+.card{
+    text-align: center;
+    position: relative;
+    width: 500px;
+    height: 420px;
+    background: linear-gradient(45deg, #2291e6 , #28db9d );
+    border-radius: none;
+    overflow: hidden;
+    background-attachment: fixed;
+}
+
+.content{
+    justify-content: center;
+    align-items: center;
+    position: static;
+    display: flex;
+    padding: 40px ;
+    text-align: center;
+}
+
+.errorMsg{
+    background-color: #F5B041;
+    text-align: center; 
+    color: #ffffff ;
+    font-family: 'Andada Pro', serif;
+    size: 14px;
+
+}
+
+.form-control {
+   
+    font-family: 'Barlow Condensed', sans-serif;
+}
+
+.list-group-item{
+    font-family: 'Barlow Condensed', sans-serif;
+}
+
+
+.time{
+    font-family: 'M PLUS 1 Code', sans-serif;
+    
+
+}
+.delete-item{
+    color: red;
+    margin-left: 10px !important;
+}
+.edit-item{
+    color: green;
+}
+
+
+
+
+

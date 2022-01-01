@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css">
+    <title>Tweet-Application</title>
+</head>
+
+<body>
+    <div class="container">
+        <div>
+            <h1> Tweet Tweet</h1>
+        </div>
+        <div class="mainCard">
+
+            <div class="card">
+                <div id="digital-clock"></div>
+                <span class="msg"></span>
+                <nav class="navbar navbar-dark bg-primary d-flex mb-4">
+                    <h1 class="navbar-brand m-auto">tweet Application</h1>
+                </nav>
+                <form>
+                    <div class="form-group mb-2">
+                        <div class="col ">
+                            <p class="error"></p>
+                            <input type="text" placeholder="tweet here" class="form-control tweet-tweet">
+
+
+                        </div>
+
+                    </div>
+                    <button class="btn mt-3 btn-small btn-primary add-product">Submit</button>
+
+                </form>
+
+            </div>
+
+            <div class="card">
+
+                <nav class="navbar navbar-dark bg-primary d-flex mb-4">
+                    <h1 class="navbar-brand m-auto">Search your tweet</h1>
+                </nav>
+                <div>
+                    <input type="text" name="filter" class="form-control" id="filter" placeholder="Search your tweet" />
+
+                    <div class="card card-body">
+                        <ul class="list-group collection">
+
+                            <!-- <li class="list-group-item collection-item">
+            <strong>Sneakers</strong>- <span class="price">$30</span>
+            <i class="fa fa-pencil-alt edit-item  float-right"></i>
+            <i class="fa fa-trash float-right"></i>
+          </li>
+          <li class="list-group-item collection-item">
+            <strong>Towel</strong>- <span class="price">$30</span>
+            <i class="fa fa-pencil-alt edit-item  float-right"></i>
+            <i class="fa fa-trash float-right"></i>
+          </li> -->
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <script src="app.js"></script>
+
+</body>
+
+</html>
