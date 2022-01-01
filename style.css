@@ -71,9 +71,12 @@
 .delete-item{
     color: red;
     margin-left: 10px !important;
+    cursor: pointer;
 }
 .edit-item{
     color: green;
+    cursor: pointer;
+    
 }
 
 
