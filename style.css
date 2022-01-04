@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@200&family=Barlow:ital@0;1&family=Khand:wght@300&family=M+PLUS+1+Code:wght@300&family=Noto+Serif+Display:wght@100&family=Source+Code+Pro:wght@300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@200&family=Barlow:ital@0;1&family=M+PLUS+1+Code:wght@300&family=Noto+Serif+Display:wght@100&family=Source+Code+Pro:wght@300&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@200&family=Barlow:ital@0;1&family=IBM+Plex+Mono:wght@300&family=Khand:wght@300&family=Lato&family=M+PLUS+1+Code:wght@300&family=Noto+Serif+Display:wght@100&family=Source+Code+Pro:wght@300&display=swap');
 
 *{
     margin:0;
@@ -44,30 +44,23 @@
     text-align: center;
 }
 
-.errorMsg{
-    background-color: #F5B041;
-    text-align: center; 
-    color: #ffffff ;
-    font-family: 'Andada Pro', serif;
-    size: 14px;
 
-}
 
 .form-control {
    
     font-family: 'Barlow Condensed', sans-serif;
+
 }
 
 .list-group-item{
     font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 
-.time{
-    font-family: 'M PLUS 1 Code', sans-serif;
-    
 
-}
+
 .delete-item{
     color: red;
     margin-left: 10px !important;

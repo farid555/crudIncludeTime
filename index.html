@@ -19,11 +19,11 @@
 
             <div class="card">
                 <div id="digital-clock"></div>
-                <span class="msg"></span>
+                <div class="msg"></div>
                 <nav class="navbar navbar-dark bg-primary d-flex mb-4">
                     <h1 class="navbar-brand m-auto">tweet Application</h1>
                 </nav>
-                <form>
+                <form onkeydown="return event.key != 'Enter';">
                     <div class="form-group mb-2">
                         <div class="col ">
                             <p class="error"></p>
@@ -61,12 +61,15 @@
             <i class="fa fa-trash float-right"></i>
           </li> -->
                         </ul>
+
+
                     </div>
                 </div>
 
             </div>
+        </div>
 
-            <script src="app.js"></script>
+        <script src="app.js"></script>
 
 </body>
 

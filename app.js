@@ -4,38 +4,44 @@ const tweetInputElm = document.querySelector('.tweet-tweet');
 const filterElm = document.querySelector('#filter');
 const ulGroupElm = document.querySelector('.list-group');
 const errorMsg = document.querySelector('.error')
+const tweetUpdateButton = document.querySelector('.add-product');
 
-//tracking item
+
+//tracking tweet
 let tweets = [];
+
 
 function init() {
 
+    let updateedTweetId;
 
     formElm.addEventListener('submit', function (e) {
         e.preventDefault();
-        const { inputTweet, dateTime } = createInput();
+        const inputTweet = createInput();
 
         const id = tweets.length;
+
+        const getTime = callTime();
 
         const tweetItems = ({
             id: id,
             tweet: inputTweet,
-            time: dateTime
+            time: getTime
         })
 
         tweets.push(tweetItems);
 
-        validationAndTextCount(inputTweet);
+
+
+        const isError = validationAndTextCount(inputTweet, getTime);
+        if (!isError) {
+            //add item to the UI
+            addItemToUI(id, inputTweet, getTime);
+            addItemLocalStroage(tweetItems);
+
+        }
         resetTweetInput();
-        addItemToUI(id, inputTweet, dateTime);
-        console.log(tweets);
-        addItemLocalStroage(tweetItems);
-
     })
-
-
-
-
 
     filterElm.addEventListener('keyup', (e) => {
 
@@ -59,31 +65,157 @@ function init() {
             removeItemFromStore(id);
             removeTweetsFromLocalStorage(id);
 
+        } else if (e.target.classList.contains('edit-item')) {
+
+            updateedTweetId = getTweetId(e.target);
+            console.log(updateedTweetId);
+            const foundTweet = tweets.find((tweet) => tweet.id === updateedTweetId);
+
+            console.log('foundTweet from find', foundTweet);
+
+            populateUIInEditState(foundTweet);
+
+            if (!document.querySelector('.update-tweet')) {
+                showUpdateButton()
+            }
+
+
+            //pick the tweet iD i want to edit...
+            //find the tweet in the
+            //populate the tweet data to UI
+            //add the updating Button...
 
 
         }
     })
+
+
     document.addEventListener('DOMContentLoaded', (e) => {
         if (localStorage.getItem('tweetSaveInLocalstorage')) {
-            const tweets = JSON.parse(localStorage.getItem('tweetSaveInLocalstorage'));
+            tweets = JSON.parse(localStorage.getItem('tweetSaveInLocalstorage'));
             showAllTweetToUI(tweets);
+
+            //change to gloabal tweetsArray
+
+
+
 
         }
     })
 
+    formElm.addEventListener('click', (e) => {
+        if (e.target.classList.contains('update-tweet')) {
+            //Pick the data from the field
+
+            const inputTweet = createInput();
+            validationAndTextCount(inputTweet);
+            resetTweetInput();
+            //updating data (from user)
+            const lastupdateTime = callTime();
+            tweets = tweets.map(tweet => {
+
+
+                if (tweet.id === updateedTweetId) {
+                    //tweet should be updated
+
+                    return {
+                        id: tweet.id,
+                        tweet: inputTweet,
+                        time: lastupdateTime
+                    }
+                } else {
+                    return tweet;
+                }
+            })
+
+
+            tweetUpdateButton.style.display = 'block';
+            // new array from map
+            //updating data should be updated to data Array store
+            //update data should be update to UI
+            //tweets = updatedtweetsArray;
+            showAllTweetToUI(tweets);
+
+
+            // updating data from localStroage 
+            //show submit button
+            //hide update button... 
+
+            document.querySelector('.update-tweet').remove();
+            const tweetFormate = {
+                id: updateedTweetId,
+                tweet: inputTweet,
+                time: lastupdateTime
+            }
+            updateEditTweetsToLocalStroage(tweetFormate);
+            console.log(tweetFormate);
+        }
+    })
 }
 
 
+//////////////////////////////////////////////////////////
+//UpdatedTweet add localStorage
+//////////////////////////////////////////////////////////
 
+function updateEditTweetsToLocalStroage(updatedTweet) {
+    //////////////////////////////////////////////////////////////////////////////
+    // if (localStorage.getItem('tweetSaveInLocalstorage')) {
+    //     localStorage.setItem('tweetSaveInLocalstorage', JSON.stringify(tweets))
+    // }
+    ///////////////////or//////////////////////////////////////////////////////////////////////////////////////
+
+    console.log(updatedTweet); // i can received ... {id: 0, tweet: 'helloZaman', time: ' 4:49 3/1/2022'}
+    if (localStorage.getItem('tweetSaveInLocalstorage')) {
+        const tweets = JSON.parse(localStorage.getItem('tweetSaveInLocalstorage'))
+
+        const newTweetArray = tweets.map(tweet => {
+            if (tweet.id === updatedTweet.id) {
+                //tweet should be updated
+                return {
+                    id: updatedTweet.id,
+                    tweet: updatedTweet.tweet,
+                    time: updatedTweet.time
+                }
+
+            } else {
+                return tweet;
+            }
+        })
+
+        localStorage.setItem('tweetSaveInLocalstorage', JSON.stringify(newTweetArray))
+    }
+
+
+
+}
+
+function showUpdateButton() {
+    const elm = `<button type="button" class="btn mt-3 btn-small btn-secondary update-tweet">Update</button>`
+    //hide the submit button
+    tweetUpdateButton.style.display = 'none';
+    formElm.insertAdjacentHTML('beforeend', elm);
+}
+
+function populateUIInEditState(fromfoundTweet) {
+    console.log('populateUIInEditState', fromfoundTweet);
+    tweetInputElm.value = fromfoundTweet.tweet;
+
+
+}
 
 
 function callTime() {
     let today = new Date();
-    let date = `${today.getDate()}- ${today.getMonth() + 1}- ${today.getFullYear()}`;
-    let time = `${today.getHours()} : ${today.getMinutes()}`;
-    return dateTime = ` -${time} || ${date}`;
+    let date = `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`;
+    let time = `${today.getHours()}:${today.getMinutes()}`;
+    return dateTime = ` ${time} ${date}`;
 }
-callTime();
+
+//////////////////////////////////////////////////////////
+//Localstroage
+//////////////////////////////////////////////////////////
+
 
 function addItemLocalStroage(loacdata) {
     let tweetsArray
@@ -104,10 +236,13 @@ function addItemLocalStroage(loacdata) {
 
 function createInput() {
     const inputTweet = tweetInputElm.value;
-    tweetCount = inputTweet.length;
-    return { inputTweet, dateTime };
+    // tweetCount = inputTweet.length;
+    return inputTweet;
 }
-console.log(dateTime);
+
+//////////////////////////////////////////////////////////
+//filter
+//////////////////////////////////////////////////////////
 
 function showAllTweetToUI(filteredTweet) {
     ulGroupElm.innerHTML = " ";
@@ -127,8 +262,6 @@ function updatAfterRemove(tweets, id) {
 }
 
 function removeTweetsFromLocalStorage(id) {
-
-
     //const upadtedtweets = updatAfterRemove(id);
     //pick from lacalstroage
     const tweets = JSON.parse(localStorage.getItem('tweetSaveInLocalstorage'));
@@ -153,48 +286,69 @@ function removeItemFromStore(id) {
 function getTweetId(elm) {
 
     const liElm = elm.parentElement;
+    console.log(liElm);
     return Number(liElm.classList[1].split('-')[1]);
+
 }
 
+
+
 function addItemToUI(id, tweet, time) {
+    //const tweetNumber = id + 1; ${tweetNumber}.
     const liElm = `<li class="list-group-item item-${id} collection-item">
-    ${tweet} <small class="time"><emx>${time}</em></small> <i class="fa fa-trash delete-item float-right"></i>
+     ${tweet} <small class="time"><emx>${time}</em></small> <i class="fa fa-trash delete-item float-right"></i>
     <i class="fa fa-pencil-alt edit-item  float-right"></i>
   </li> `
     ulGroupElm.insertAdjacentHTML('afterbegin', liElm)
 }
 
+function showMessage(msg) {
+    const msgElmErrorOne = document.querySelector('.err-msg')
+    const inputError = ` <div class="alert  alert-danger err-msg">${msg}</div>`
+    if (!msgElmErrorOne) {
+        errorMsg.insertAdjacentHTML('afterbegin', inputError)
+    }
 
+
+}
 
 function resetTweetInput() {
     tweetInputElm.value = '';
 }
 
+
+//////////////////////////////////////////////////////////
+//input Validation 
+//////////////////////////////////////////////////////////
+
 function validationAndTextCount(textMsg) {
 
+    let isError = false;
     let inpuLength = textMsg.length;
     let totalTweet = 14;
     yourTweet = totalTweet - inpuLength;
 
     if (textMsg === '' || textMsg.length < 5) {
-        const inputError = ` <p class="errorMsg">Please write the post and it must be more then five words... </p>`
-        errorMsg.insertAdjacentHTML('afterbegin', inputError)
-
+        isError = true;
+        showMessage('Please tweet your post, atleast five words... ');
         setTimeout(function () {
             errorMsg.textContent = "";
-        }, 4000);
+        }, 3000);
 
     }
 
     if (textMsg.length > totalTweet) {
-
-        const inputError = ` <p class="errorMsg">Your limit is ${totalTweet} but you crosse the limit which is ${Math.abs(inpuLength)} </p>`
-        errorMsg.insertAdjacentHTML('afterbegin', inputError)
-
+        isError = true;
+        const msgElmErrorTwo = document.querySelector('.err-msgtwo')
+        const inputError = ` <div class="alert  alert-danger err-msgtwo">Your limit is ${Math.abs(totalTweet)} words, You tweet ${inpuLength} words...</div>`
+        if (!msgElmErrorTwo) {
+            errorMsg.insertAdjacentHTML('afterbegin', inputError)
+        }
         setTimeout(function () {
             errorMsg.textContent = "";
-        }, 4000);
+        }, 3000);
     }
+    return isError;
 }
 
 
